@@ -1,0 +1,526 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { 
+  fetchOrderDetail, 
+  updateOrderStatus, 
+  updateOrderPayment, 
+  updateOrderNote, 
+  uploadOrderPhotos,
+  deleteOrderPhoto,
+  deleteOrder,
+  updateOrderCustomer,
+  updateWarrantyStatus // 1. Import fungsi API garansi baru
+} from "../../lib/orders";
+import { 
+  ChevronLeft, User, CreditCard, Save, 
+  Image as ImageIcon, MessageSquare, Upload, X, Trash2,
+  ShieldCheck // Icon tambahan untuk garansi
+} from "lucide-react";
+
+const STATUS_OPTIONS = ["PENDING", "PROCESS", "DONE", "CANCEL"];
+const PAYMENT_METHODS = ["CASH", "QRIS", "TRANSFER"];
+
+export default function AdminOrderDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // State Draft Customer
+  const [customerDraft, setCustomerDraft] = useState({
+    customer_name: "",
+    customer_phone: "",
+    customer_address: "",
+  });
+  const [savingCustomer, setSavingCustomer] = useState(false);
+
+  const [statusDraft, setStatusDraft] = useState("");
+  const [savingStatus, setSavingStatus] = useState(false);
+  const [paymentDraft, setPaymentDraft] = useState({ price: 0, amount_paid: 0, payment_method: "" });
+  const [savingPayment, setSavingPayment] = useState(false);
+  const [noteDraft, setNoteDraft] = useState("");
+  const [savingNote, setSavingNote] = useState(false);
+
+  // 2. State baru untuk fitur Garansi
+  const [warrantyClaimed, setWarrantyClaimed] = useState(false);
+  const [savingWarranty, setSavingWarranty] = useState(false);
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  async function load() {
+    try {
+      setLoading(true);
+      const res = await fetchOrderDetail(id);
+      const data = res.data;
+      setOrder(data);
+      
+      setCustomerDraft({
+        customer_name: data.customer_name || "",
+        customer_phone: data.customer_phone || "",
+        customer_address: data.customer_address || "",
+      });
+
+      setStatusDraft(data.order_status);
+      setNoteDraft(data.admin_note || "");
+      setPaymentDraft({
+        price: data.price || 0,
+        amount_paid: data.amount_paid || 0,
+        payment_method: data.payment_method || "CASH",
+      });
+
+      // 3. Sinkronisasi status garansi dari database
+      setWarrantyClaimed(Boolean(data.warranty_claimed));
+    } catch (e) {
+      setErrorMsg("Gagal mengambil detail order");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    load();
+  }, [id]);
+
+  // 4. Handler untuk toggle status garansi
+  async function handleToggleWarranty() {
+    try {
+      setSavingWarranty(true);
+      const nextStatus = !warrantyClaimed;
+      await updateWarrantyStatus(order.id, nextStatus);
+      setWarrantyClaimed(nextStatus);
+      // Optional: load() jika ingin data order di state sinkron total dengan BE
+    } catch (e) {
+      alert(e.response?.data?.message || "Gagal update status garansi");
+    } finally {
+      setSavingWarranty(false);
+    }
+  }
+
+  async function handleSaveCustomer() {
+    try {
+      setSavingCustomer(true);
+      await updateOrderCustomer(order.id, customerDraft);
+      await load();
+      alert("Data customer berhasil diperbarui!");
+    } catch (e) {
+      alert(e.response?.data?.message || "Gagal update data customer");
+    } finally {
+      setSavingCustomer(false);
+    }
+  }
+
+  const isCustomerUnchanged = 
+    order &&
+    customerDraft.customer_name === order.customer_name &&
+    customerDraft.customer_phone === order.customer_phone &&
+    (customerDraft.customer_address || "") === (order.customer_address || "");
+
+  async function handleDeleteThisOrder() {
+    const ok = window.confirm(
+      `Yakin hapus order ${order.ticket_code}?\nFoto order juga akan terhapus.`
+    );
+    if (!ok) return;
+
+    try {
+      await deleteOrder(order.id);
+      alert("Order berhasil dihapus.");
+      navigate("/admin/orders");
+    } catch (e) {
+      alert(e.response?.data?.message || "Gagal hapus order");
+    }
+  }
+
+  async function handleDeletePhoto(photoId) {
+    if (!confirm("Hapus foto ini secara permanen?")) return;
+    try {
+      await deleteOrderPhoto(photoId);
+      await load();
+      alert("Foto berhasil dihapus");
+    } catch (e) {
+      alert(e.response?.data?.message || "Gagal menghapus foto");
+    }
+  }
+
+  async function handleUploadPhotos() {
+    try {
+      setUploading(true);
+      await uploadOrderPhotos(order.id, selectedFiles);
+      setSelectedFiles([]); 
+      await load(); 
+      alert("Foto berhasil diunggah!");
+    } catch (e) {
+      alert(e.response?.data?.message || "Gagal upload foto");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handleSaveStatus() {
+    try {
+      setSavingStatus(true);
+      await updateOrderStatus(order.id, statusDraft);
+      await load();
+      alert("Status order berhasil diperbarui!");
+    } catch (e) { alert(e.response?.data?.message || "Gagal update status"); } finally { setSavingStatus(false); }
+  }
+
+  async function handleSavePayment() {
+    try {
+      setSavingPayment(true);
+      await updateOrderPayment(order.id, {
+        price: Number(paymentDraft.price),
+        amount_paid: Number(paymentDraft.amount_paid),
+        payment_method: paymentDraft.payment_method,
+      });
+      await load();
+      alert("Data pembayaran berhasil diperbarui!");
+    } catch (e) { alert(e.response?.data?.message || "Gagal update pembayaran"); } finally { setSavingPayment(false); }
+  }
+
+  async function handleSaveNote() {
+    try {
+      setSavingNote(true);
+      await updateOrderNote(order.id, { admin_note: noteDraft });
+      await load();
+      alert("Catatan admin berhasil diperbarui!");
+    } catch (e) { alert(e.response?.data?.message || "Gagal update catatan"); } finally { setSavingNote(false); }
+  }
+
+  if (loading && !order) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8 pb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/10 p-6 rounded-3xl border border-white/10 backdrop-blur-md shadow-xl">
+        <div className="flex items-center gap-4">
+          <button onClick={() => navigate(-1)} className="p-2 bg-white/5 hover:bg-white/20 rounded-xl transition-all text-white/70">
+            <ChevronLeft size={20} />
+          </button>
+          <div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Order — <span className="text-white/60 font-mono">{order.ticket_code}</span>
+            </h2>
+          </div>
+        </div>
+
+        <button
+          onClick={handleDeleteThisOrder}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-xs font-bold"
+        >
+          <Trash2 size={16} />
+          Hapus Order
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          
+          <section>
+            <div className="flex items-center justify-between mb-4 px-2">
+              <div className="flex items-center gap-2 text-white/50">
+                <User size={18} />
+                <h3 className="font-bold text-sm uppercase tracking-widest">Customer Info</h3>
+              </div>
+              <button 
+                onClick={handleSaveCustomer}
+                disabled={savingCustomer || isCustomerUnchanged}
+                className="text-[10px] font-bold uppercase tracking-widest bg-white/10 border border-white/20 text-white px-4 py-2 rounded-xl hover:bg-white/20 disabled:opacity-30 transition-all"
+              >
+                {savingCustomer ? "Saving..." : "Simpan Customer"}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input 
+                label="Nama Customer" 
+                value={customerDraft.customer_name} 
+                onChange={(e) => setCustomerDraft({ ...customerDraft, customer_name: e.target.value })}
+              />
+              <Input 
+                label="No. HP / WhatsApp" 
+                value={customerDraft.customer_phone} 
+                onChange={(e) => setCustomerDraft({ ...customerDraft, customer_phone: e.target.value })}
+              />
+              <div className="md:col-span-2">
+                <Textarea 
+                  label="Alamat Lengkap" 
+                  value={customerDraft.customer_address} 
+                  onChange={(e) => setCustomerDraft({ ...customerDraft, customer_address: e.target.value })}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div className="flex items-center justify-between mb-4 px-2">
+              <div className="flex items-center gap-2 text-white/50">
+                <CreditCard size={18} />
+                <h3 className="font-bold text-sm uppercase tracking-widest">Order & Payment</h3>
+              </div>
+              <button 
+                onClick={handleSavePayment}
+                disabled={savingPayment}
+                className="text-[10px] font-bold uppercase tracking-widest bg-white text-[#184832] px-4 py-2 rounded-xl hover:bg-white/90 disabled:opacity-30 transition-all shadow-lg"
+              >
+                {savingPayment ? "Saving..." : "Simpan Pembayaran"}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                <p className="text-[10px] text-white/30 mb-2 uppercase font-black tracking-widest">Order Status</p>
+                <div className="flex gap-2">
+                  <select
+                    value={statusDraft}
+                    onChange={(e) => setStatusDraft(e.target.value)}
+                    className="flex-1 bg-transparent text-sm font-bold text-white outline-none cursor-pointer"
+                  >
+                    {STATUS_OPTIONS.map((s) => (
+                      <option key={s} value={s} className="bg-[#184832] uppercase">{s}</option>
+                    ))}
+                  </select>
+                  <button onClick={handleSaveStatus} disabled={savingStatus || statusDraft === order.order_status} className="text-emerald-400 disabled:opacity-0 transition-opacity">
+                    <Save size={18} />
+                  </button>
+                </div>
+              </div>
+
+              <Info label="Payment Status" value={order.payment_status} isStatus statusType={order.payment_status} />
+
+              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                <p className="text-[10px] text-white/30 mb-2 uppercase font-black tracking-widest">Method</p>
+                <select
+                  value={paymentDraft.payment_method}
+                  onChange={(e) => setPaymentDraft({ ...paymentDraft, payment_method: e.target.value })}
+                  className="w-full bg-transparent text-sm font-bold text-white outline-none cursor-pointer"
+                >
+                  {PAYMENT_METHODS.map((m) => (
+                    <option key={m} value={m} className="bg-[#184832] uppercase">{m}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                <p className="text-[10px] text-white/30 mb-1 uppercase font-black tracking-widest">Total Harga</p>
+                <input
+                  type="number"
+                  value={paymentDraft.price}
+                  onChange={(e) => setPaymentDraft({ ...paymentDraft, price: e.target.value })}
+                  className="w-full bg-transparent text-lg font-mono font-bold text-white outline-none"
+                />
+              </div>
+
+              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                <p className="text-[10px] text-white/30 mb-1 uppercase font-black tracking-widest">Sudah Dibayar</p>
+                <input
+                  type="number"
+                  value={paymentDraft.amount_paid}
+                  onChange={(e) => setPaymentDraft({ ...paymentDraft, amount_paid: e.target.value })}
+                  className="w-full bg-transparent text-lg font-mono font-bold text-white outline-none"
+                />
+              </div>
+
+              <div className="bg-white/10 border border-white/20 p-4 rounded-2xl flex flex-col justify-center shadow-inner">
+                <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">Sisa Tagihan</p>
+                <p className={`text-lg font-mono font-bold ${paymentDraft.price - paymentDraft.amount_paid > 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                  Rp {(paymentDraft.price - paymentDraft.amount_paid).toLocaleString()}
+                </p>
+              </div>
+            </div>
+
+            {/* 5. Tampilan Card Klaim Garansi Baru */}
+            <div className="mt-6 bg-white/5 border border-white/10 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl backdrop-blur-sm">
+              <div className="flex items-center gap-4">
+                <div className={`p-3 rounded-2xl border transition-all ${warrantyClaimed ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400' : 'bg-white/5 border-white/10 text-white/20'}`}>
+                  <ShieldCheck size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">Status Garansi</p>
+                  <p className="text-white font-bold text-sm mt-0.5">
+                    {warrantyClaimed ? "Customer telah mengklaim garansi" : "Belum ada klaim garansi aktif"}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={handleToggleWarranty}
+                disabled={savingWarranty}
+                className={`w-full md:w-auto px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] border transition-all active:scale-95 shadow-lg
+                  ${warrantyClaimed
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20"
+                    : "bg-white/5 text-white/40 border-white/10 hover:bg-white/10"}
+                  ${savingWarranty ? "opacity-50 cursor-not-allowed" : ""}
+                `}
+              >
+                {savingWarranty ? "Processing..." : warrantyClaimed ? "Mark as False" : "Mark as Claimed"}
+              </button>
+            </div>
+          </section>
+
+          <section>
+            <div className="flex items-center justify-between mb-4 px-2">
+              <div className="flex items-center gap-2 text-white/50">
+                <MessageSquare size={18} />
+                <h3 className="font-bold text-sm uppercase tracking-widest">Admin Note</h3>
+              </div>
+              <button 
+                onClick={handleSaveNote}
+                disabled={savingNote || noteDraft === (order.admin_note || "")}
+                className="text-[10px] font-bold uppercase tracking-widest bg-white/10 border border-white/20 text-white px-4 py-2 rounded-xl hover:bg-white/20 disabled:opacity-30 transition-all"
+              >
+                {savingNote ? "Saving..." : "Simpan Note"}
+              </button>
+            </div>
+            
+            <textarea
+              value={noteDraft}
+              onChange={(e) => setNoteDraft(e.target.value)}
+              rows={4}
+              placeholder="Tulis catatan admin di sini..."
+              className="w-full rounded-3xl bg-white/5 border border-white/10 p-6 text-white text-sm outline-none focus:border-white/30 transition-all italic leading-relaxed shadow-lg resize-none"
+            />
+          </section>
+        </div>
+
+        <div className="space-y-6">
+          <div className="flex items-center gap-2 mb-4 text-white/50 px-2">
+            <ImageIcon size={18} />
+            <h3 className="font-bold text-sm uppercase tracking-widest">Photos</h3>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg space-y-4">
+            <label className="block text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2 ml-1">Upload Baru</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
+              className="block w-full text-xs text-white/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-white/10 file:text-white hover:file:bg-white/20 transition-all cursor-pointer"
+            />
+
+            {selectedFiles.length > 0 && (
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                {selectedFiles.map((file, i) => (
+                  <div key={i} className="relative aspect-square">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt="preview"
+                      className="rounded-xl h-full w-full object-cover border border-white/10 shadow-md"
+                    />
+                    <button 
+                      onClick={() => setSelectedFiles(prev => prev.filter((_, idx) => idx !== i))}
+                      className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 shadow-lg"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={handleUploadPhotos}
+              disabled={uploading || selectedFiles.length === 0}
+              className="w-full py-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-30 shadow-md"
+            >
+              {uploading ? "Uploading..." : `Upload ${selectedFiles.length} Foto`}
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            {order.photos?.map((p) => (
+              <div key={p.id} className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-xl group relative bg-black/20">
+                <img 
+                   src={p.url} 
+                   alt="Order Detail" 
+                   className="w-full h-full object-cover transition-transform group-hover:scale-110" 
+                   onError={(e) => {
+                     e.target.src = "https://placehold.co/400x400/184832/white?text=Image+Not+Found";
+                   }}
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                  <a 
+                    href={p.url} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="w-3/4 py-1 text-center font-bold text-[10px] uppercase text-white bg-white/20 hover:bg-white/40 rounded backdrop-blur-md transition-all"
+                  >
+                    View Full
+                  </a>
+                  <button
+                    onClick={() => handleDeletePhoto(p.id)}
+                    className="w-3/4 py-1 flex items-center justify-center gap-1 font-bold text-[10px] uppercase text-white bg-red-600/60 hover:bg-red-600 rounded backdrop-blur-md transition-all"
+                  >
+                    <Trash2 size={12} />
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {order.photos?.length === 0 && selectedFiles.length === 0 && (
+            <div className="text-center py-10 bg-white/5 border border-dashed border-white/10 rounded-3xl">
+              <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest">Belum ada foto</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Input({ label, ...props }) {
+  return (
+    <div className="bg-white/5 border border-white/10 p-4 rounded-2xl shadow-lg">
+      <p className="text-[10px] text-white/30 mb-1 uppercase font-black tracking-widest">
+        {label}
+      </p>
+      <input
+        {...props}
+        className="w-full bg-transparent text-white outline-none text-sm font-medium"
+      />
+    </div>
+  );
+}
+
+function Textarea({ label, ...props }) {
+  return (
+    <div className="bg-white/5 border border-white/10 p-4 rounded-2xl shadow-lg">
+      <p className="text-[10px] text-white/30 mb-1 uppercase font-black tracking-widest">
+        {label}
+      </p>
+      <textarea
+        {...props}
+        rows={3}
+        className="w-full bg-transparent text-white outline-none text-sm resize-none font-medium leading-relaxed"
+      />
+    </div>
+  );
+}
+
+function Info({ label, value, isStatus = false, statusType = "" }) {
+  const getStatusColor = (type) => {
+    const s = type?.toLowerCase();
+    if (s === "completed" || s === "paid" || s === "done") return "text-emerald-400 bg-emerald-400/10 border-emerald-400/20";
+    if (s === "pending" || s === "process") return "text-orange-400 bg-orange-400/10 border-orange-400/20";
+    if (s === "cancel") return "text-red-400 bg-red-400/10 border-red-400/20";
+    return "text-white/60 bg-white/5 border-white/10";
+  };
+  return (
+    <div className="bg-white/5 border border-white/10 p-4 rounded-2xl shadow-lg transition-all hover:bg-white/10">
+      <p className="text-[10px] text-white/30 mb-1 uppercase font-black tracking-widest">{label}</p>
+      {isStatus ? (
+        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${getStatusColor(statusType)}`}>{value || "-"}</span>
+      ) : ( <p className="font-medium text-white">{value || "-"}</p> )}
+    </div>
+  );
+}
