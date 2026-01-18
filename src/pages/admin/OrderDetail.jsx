@@ -33,6 +33,7 @@ export default function AdminOrderDetail() {
     customer_name: "",
     customer_phone: "",
     customer_address: "",
+    griya_pos_code: "",
   });
   const [savingCustomer, setSavingCustomer] = useState(false);
 
@@ -61,6 +62,7 @@ export default function AdminOrderDetail() {
         customer_name: data.customer_name || "",
         customer_phone: data.customer_phone || "",
         customer_address: data.customer_address || "",
+        griya_pos_code: data.griya_pos_code || "", // <--- TAMBAHKAN INI
       });
 
       setStatusDraft(data.order_status);
@@ -116,7 +118,8 @@ export default function AdminOrderDetail() {
     order &&
     customerDraft.customer_name === order.customer_name &&
     customerDraft.customer_phone === order.customer_phone &&
-    (customerDraft.customer_address || "") === (order.customer_address || "");
+   (customerDraft.griya_pos_code || "") === (order.griya_pos_code || "") && (customerDraft.customer_address || "") === (order.customer_address || "");
+    
 
   async function handleDeleteThisOrder() {
     const ok = window.confirm(
@@ -239,6 +242,18 @@ export default function AdminOrderDetail() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl shadow-lg ring-1 ring-emerald-500/20">
+  <p className="text-[10px] text-emerald-400/50 mb-1 uppercase font-black tracking-widest">
+    Griya Pos Code (Manual)
+  </p>
+  <input
+    placeholder="Contoh: 111"
+    value={customerDraft.griya_pos_code} // Pastikan ini mengarah ke customerDraft
+    onChange={(e) => setCustomerDraft({ ...customerDraft, griya_pos_code: e.target.value })}
+    className="w-full bg-transparent text-white outline-none text-sm font-mono font-bold"
+  />
+</div>
               <Input 
                 label="Nama Customer" 
                 value={customerDraft.customer_name} 

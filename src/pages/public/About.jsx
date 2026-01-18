@@ -24,8 +24,8 @@ export default function About() {
 
   const stats = [
     { value: '6+', label: 'Tahun Melayani' },
-    { value: '30K+', label: 'Sepatu Terawat' },
-    { value: '30K+', label: 'Pelanggan Setia' },
+    { value: '10K+', label: 'Sepatu Terawat' },
+    { value: '5K+', label: 'Pelanggan Puas' },
     { value: 'Rp25K', label: 'Harga Mulai' },
   ];
 

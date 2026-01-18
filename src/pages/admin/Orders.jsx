@@ -11,7 +11,27 @@ export default function AdminOrders() {
   
   // State Filter & Search
   const [filterStatus, setFilterStatus] = useState("ALL");
-  const [searchQuery, setSearchQuery] = useState(""); // State baru untuk pencarian
+  const [searchQuery, setSearchQuery] = useState(""); 
+
+  // Fungsi Helper untuk memformat nomor HP ke standar WhatsApp Internasional (62)
+  const formatWhatsApp = (phone) => {
+    if (!phone) return "";
+    
+    // Hapus karakter non-digit seperti spasi, strip, atau tanda plus
+    let cleaned = phone.replace(/\D/g, "");
+
+    // Jika nomor diawali '0', ubah menjadi '62'
+    if (cleaned.startsWith("0")) {
+      cleaned = "62" + cleaned.substring(1);
+    }
+    
+    // Jika nomor diawali '8' (langsung angka provider), tambahkan '62' di depan
+    if (cleaned.startsWith("8")) {
+      cleaned = "62" + cleaned;
+    }
+
+    return cleaned;
+  };
 
   async function load() {
     try {
@@ -25,15 +45,14 @@ export default function AdminOrders() {
     }
   }
 
-  // Logic gabungan: Filter Status + Search (Nama & Ticket)
+  // Logic gabungan: Filter Status + Search (Nama, Ticket, & Griya Pos)
   const filteredOrders = orders.filter((o) => {
-    // 1. Filter Status
     const matchesStatus = filterStatus === "ALL" || o.order_status?.toUpperCase() === filterStatus.toUpperCase();
     
-    // 2. Filter Search (Cek Ticket Code & Nama Customer)
     const matchesSearch = 
       o.ticket_code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      o.customer_name?.toLowerCase().includes(searchQuery.toLowerCase());
+      o.customer_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (o.griya_pos_code && o.griya_pos_code.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return matchesStatus && matchesSearch;
   });
@@ -71,40 +90,40 @@ export default function AdminOrders() {
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="flex flex-col xl:flex-row xl:items-end justify-between bg-white/10 p-6 rounded-3xl border border-white/10 backdrop-blur-md gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between bg-white/10 p-6 rounded-3xl border border-white/10 backdrop-blur-md gap-4 text-white">
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-white tracking-tight">Orders Management</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Orders Management</h2>
           <p className="text-white/50 text-sm mt-1">Pantau dan kelola pesanan customer secara real-time.</p>
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-3 w-full xl:w-auto">
           {/* SEARCH BAR */}
-<div className="relative w-full group">
-  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-emerald-400 transition-colors" size={16} />
-  <input 
-    type="text"
-    placeholder="Cari Tiket atau Nama..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-emerald-500/50 transition-all shadow-inner"
-  />
-</div>
+          <div className="relative w-full group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-emerald-400 transition-colors" size={16} />
+            <input 
+              type="text"
+              placeholder="Cari Tiket, Nama, atau No Griya Pos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-emerald-500/50 transition-all shadow-inner"
+            />
+          </div>
 
-{/* FILTER STATUS */}
-<div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 w-full transition-all focus-within:border-emerald-500/50">
-  <Filter size={16} className="text-white/30" />
-  <select 
-    value={filterStatus}
-    onChange={(e) => setFilterStatus(e.target.value)}
-    className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer uppercase tracking-wider w-full"
-  >
-    <option value="ALL" className="bg-[#184832]">Semua Status</option>
-    <option value="PENDING" className="bg-[#184832]">Pending</option>
-    <option value="PROCESS" className="bg-[#184832]">Process</option>
-    <option value="DONE" className="bg-[#184832]">Done</option>
-    <option value="CANCEL" className="bg-[#184832]">Cancel</option>
-  </select>
-</div>
+          {/* FILTER STATUS */}
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 w-full transition-all focus-within:border-emerald-500/50">
+            <Filter size={16} className="text-white/30" />
+            <select 
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer uppercase tracking-wider w-full"
+            >
+              <option value="ALL" className="bg-[#184832]">Semua Status</option>
+              <option value="PENDING" className="bg-[#184832]">Pending</option>
+              <option value="PROCESS" className="bg-[#184832]">Process</option>
+              <option value="DONE" className="bg-[#184832]">Done</option>
+              <option value="CANCEL" className="bg-[#184832]">Cancel</option>
+            </select>
+          </div>
 
           <Link
             to="/admin/orders/create"
@@ -130,10 +149,11 @@ export default function AdminOrders() {
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-xl font-medium">
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
-                <thead className="bg-white/5 text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold">
+                <thead className="bg-white/5 text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/5">
                     <tr>
                     <th className="p-4 w-[50px]">No</th>
                     <th className="p-4">Ticket</th>
+                    <th className="p-4">Griya Pos</th>
                     <th className="p-4">Customer</th>
                     <th className="p-4">WhatsApp</th>
                     <th className="p-4">Service</th>
@@ -146,7 +166,7 @@ export default function AdminOrders() {
                 <tbody className="divide-y divide-white/5">
                     {filteredOrders.length === 0 ? (
                         <tr>
-                            <td colSpan="9" className="p-10 text-center text-white/20 italic font-medium">
+                            <td colSpan="10" className="p-10 text-center text-white/20 italic font-medium">
                                 {searchQuery 
                                   ? `Tidak ada hasil untuk "${searchQuery}"` 
                                   : `Tidak ada pesanan dengan status "${filterStatus}"`}
@@ -156,11 +176,23 @@ export default function AdminOrders() {
                         filteredOrders.map((o, index) => (
                         <tr key={o.id} className="hover:bg-white/5 transition-colors group">
                             <td className="p-4 text-white/30 font-mono">{index + 1}</td>
-                            <td className="p-4 font-mono font-bold text-white/80">{o.ticket_code}</td>
+                            <td className="p-4 font-mono font-bold text-white/80 uppercase">{o.ticket_code}</td>
+                            
+                            <td className="p-4">
+                                {o.griya_pos_code ? (
+                                    <span className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[11px] font-mono text-emerald-400">
+                                        {o.griya_pos_code}
+                                    </span>
+                                ) : (
+                                    <span className="text-white/10 text-[10px] italic font-medium">No Ref</span>
+                                )}
+                            </td>
+
                             <td className="p-4 text-white font-medium">{o.customer_name}</td>
                             <td className="p-4">
                               <a 
-                                href={`https://wa.me/${o.customer_phone?.replace(/\D/g, '')}`} 
+                                // IMPLEMENTASI BARU: Tautan WA otomatis terformat
+                                href={`https://wa.me/${formatWhatsApp(o.customer_phone)}`} 
                                 target="_blank" rel="noreferrer"
                                 className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors"
                               >

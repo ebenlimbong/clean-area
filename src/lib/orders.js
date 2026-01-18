@@ -85,3 +85,8 @@ export async function updateWarrantyStatus(orderId, warranty_claimed) {
   });
   return res.data;
 }
+
+export async function createOrder(payload) {
+  const res = await api.post("/admin/orders", payload);
+  return res.data;
+}

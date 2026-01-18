@@ -15,10 +15,11 @@ export default function AdminOrderCreate() {
     service_id: "",
     customer_name: "",
     customer_phone: "",
+    griya_pos_code: "",
     customer_address: "",
     price: "",
     amount_paid: 0,
-    payment_mekthod: "CASH",
+    payment_method: "CASH",
     admin_note: "",
   });
 
@@ -99,6 +100,19 @@ export default function AdminOrderCreate() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div className="space-y-2">
+    <label className="text-[10px] font-bold text-emerald-400/50 uppercase tracking-widest ml-1">
+      Nomor Griya Pos
+    </label>
+    <input
+      placeholder="Contoh: 111"
+      value={form.griya_pos_code}
+      onChange={(e) => setForm({ ...form, griya_pos_code: e.target.value })}
+      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white outline-none focus:border-emerald-500/50 transition-all shadow-inner border-dashed" 
+    />
+    <p className="text-[9px] text-white/20 ml-1 italic">*Kosongkan jika tidak ada nota fisik</p>
+  </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest ml-1">Nama Customer</label>
               <input
