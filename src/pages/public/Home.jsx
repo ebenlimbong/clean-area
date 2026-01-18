@@ -2,10 +2,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import konten1 from '../../assets/images/home/konten1.png';
-import konten2 from '../../assets/images/home/konten2.png';
+import konten1 from '../../assets/images/home/gambar2.png';
+import konten2 from '../../assets/images/home/repair.png';
 import konten3 from '../../assets/images/home/konten3.png';
-import konten4 from '../../assets/images/home/konten4.png';
+import konten4 from '../../assets/images/home/custom.png';
 import konten5 from '../../assets/images/home/konten5.png';
 
 // ✅ 3 FOTO SEPATU (sesuaikan nama file kamu)
@@ -16,7 +16,7 @@ import gambar3 from '../../assets/images/home/gambar3.png';
 const services = [
   {
     title: 'Cleaning',
-    desc: 'Perawatan sepatu profesional dengan hasil maksimal.',
+    desc: '',
     img: konten1,
   },
   {
@@ -36,7 +36,7 @@ const services = [
   },
   {
     title: 'Paket Usaha',
-    desc: 'Perawatan sepatu profesional dengan hasil maksimal.',
+    desc: 'Mau buka usaha sepatu tapi bingung ? Kami siap membantu.',
     img: konten5,
   },
 ];
@@ -189,8 +189,8 @@ export default function Home() {
 
   const stats = [
     { value: '6 Tahun+', label: 'berdiri & dipercaya pelanggan' },
-    { value: '30000+', label: 'pasang sepatu telah ditangani' },
-    { value: '30000+', label: 'pelanggan puas dengan layanan kami' },
+    { value: '10000+', label: 'pasang sepatu telah ditangani' },
+    { value: '5000+', label: 'pelanggan puas dengan layanan kami' },
     { value: 'Rp 25.000', label: 'harga mulai cuci sepatu' },
   ];
 

@@ -5,7 +5,7 @@ export default function Footer() {
   const socialIcons = (
     <>
       <a
-        href="https://instagram.com/cleanarea.id"
+        href="https://instagram.com/clean.area"
         target="_blank"
         rel="noreferrer"
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-amber-400 hover:text-black transition-all duration-300 hover:scale-105"
