@@ -24,7 +24,7 @@ import list4 from "../../assets/images/services/list4.PNG";
 import list5 from "../../assets/images/services/list5.PNG";
 
 export default function Services() {
-  const WHATSAPP_NUMBER = "6281234567890"; // ✅ ganti kalau perlu
+  const WHATSAPP_NUMBER = "6287711428015"; // ✅ ganti kalau perlu
 
   const [openId, setOpenId] = useState(null);
 
@@ -45,14 +45,14 @@ export default function Services() {
           "Perawatan material khusus",
           "Opsional treatment protection",
         ],
-        price: "Mulai Rp 50.000",
+        price: "Mulai Rp 25.000",
         duration: "2-6 hari kerja",
         whyChoose: "Teknik rapi, aman untuk material, hasil lebih tahan lama.",
       },
       {
         id: "repair",
         title: "Product",
-        shortDesc: "Product untuk kebersihan sepatu anda .",
+        shortDesc: "Mau buka usaha cuci sepatu tapi masih bingung? .",
         icon: Hammer,
         image: list2,
         fullDescription:
@@ -70,10 +70,10 @@ export default function Services() {
       },
       {
         id: "repaint",
-        title: "Custom",
-        shortDesc: "Desain & modifikasi sepatu sesuai konsep kamu.",
+        title: "Clenaing others",
+        shortDesc: "Bersihkan barang barang anda yang lain yuk.",
         icon: Palette,
-        image: list3,
+        image: list4,
         fullDescription:
           "Repaint menggunakan cat berkualitas tinggi dengan finishing lebih halus, anti crack, dan tidak mudah mengelupas.",
         features: [
@@ -83,16 +83,16 @@ export default function Services() {
           "Teknik anti crack",
           "Perawatan coating",
         ],
-        price: "Mulai Rp 120.000",
+        price: "Mulai Rp 30.000",
         duration: "12-30 hari kerja",
         whyChoose: "Hasil warna lebih solid, rapi, dan nyaman dipakai harian.",
       },
       {
         id: "custom",
-        title: "Cleaning",
-        shortDesc: "Bersihkan barang barang anda yang lain yuk.",
+        title: "Custom",
+        shortDesc: "Desain & modifikasi sepatu sesuai konsep kamu.",
         icon: Sparkles,
-        image: list4,
+        image: list3,
         fullDescription:
           "Custom untuk kamu yang ingin sepatu tampil beda: warna, detail, hingga konsep desain khusus.",
         features: [
@@ -102,7 +102,7 @@ export default function Services() {
           "Request detail (sesuai kesepakatan)",
           "Quality check sebelum selesai",
         ],
-        price: "Mulai Rp 30.000",
+        price: "Mulai Rp 120.000",
         duration: "2-5 hari kerja",
         whyChoose: "Detail custom lebih niat, bukan asal jadi — fokus ke finishing.",
       },
@@ -386,8 +386,8 @@ export default function Services() {
               },
               {
                 icon: Timer,
-                title: "Cepat & Tepat",
-                desc: "Estimasi jelas, pengerjaan efisien tanpa asal-asalan.",
+                title: "Transparan",
+                desc: "Proses kerja terbuka, jelas, dan dapat dipercaya.",
               },
               {
                 icon: ShieldCheck,

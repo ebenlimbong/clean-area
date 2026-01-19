@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import konten1 from '../../assets/images/home/gambar2.png';
-import konten2 from '../../assets/images/home/repair.png';
-import konten3 from '../../assets/images/home/konten3.png';
+import konten2 from '../../assets/images/home/repair2.png';
+import konten3 from '../../assets/images/home/color.png';
 import konten4 from '../../assets/images/home/custom.png';
-import konten5 from '../../assets/images/home/konten5.png';
+import konten5 from '../../assets/images/home/konten8.png';
 
 // ✅ 3 FOTO SEPATU (sesuaikan nama file kamu)
 import gambar1 from '../../assets/images/home/gambar1.png';
@@ -16,27 +16,27 @@ import gambar3 from '../../assets/images/home/gambar3.png';
 const services = [
   {
     title: 'Cleaning',
-    desc: '',
+    desc: 'Cuci bersih menyeluruh, kembalikan kesegaran sepatu seperti baru lagi.',
     img: konten1,
   },
   {
     title: 'Repair',
-    desc: 'Perawatan sepatu profesional dengan hasil maksimal.',
+    desc: 'Perbaikan sol dan jahitan rusak dengan hasil kuat rapi.',
     img: konten2,
   },
   {
     title: 'Repaint',
-    desc: 'Perawatan sepatu profesional dengan hasil maksimal.',
+    desc: 'Restorasi warna pudar menjadi tajam kembali dengan cat premium.',
     img: konten3,
   },
   {
     title: 'Custom',
-    desc: 'Perawatan sepatu profesional dengan hasil maksimal.',
+    desc: 'Ubah sepatumu jadi karya seni unik sesuai karakter pribadimu.',
     img: konten4,
   },
   {
     title: 'Paket Usaha',
-    desc: 'Mau buka usaha sepatu tapi bingung ? Kami siap membantu.',
+    desc: 'Solusi lengkap bagi Anda yang ingin memulai bisnis sepatu.',
     img: konten5,
   },
 ];
@@ -321,7 +321,7 @@ export default function Home() {
 
             <div className="mt-6 flex justify-center gap-4">
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6287711428015"
                 className="rounded-2xl bg-black px-6 py-3 text-white font-semibold hover:bg-gray-800 transition-all shadow-md"
                 target="_blank"
                 rel="noreferrer"

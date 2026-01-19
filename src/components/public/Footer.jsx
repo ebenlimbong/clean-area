@@ -15,7 +15,7 @@ export default function Footer() {
       </a>
 
       <a
-        href="https://tiktok.com/@cleanarea.id"
+        href="https://tiktok.com/@clean.area"
         target="_blank"
         rel="noreferrer"
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-amber-400 hover:text-black transition-all duration-300 hover:scale-105"
@@ -25,7 +25,7 @@ export default function Footer() {
       </a>
 
       <a
-        href="https://wa.me/6283808558522"
+        href="https://wa.me/6287711428015"
         target="_blank"
         rel="noreferrer"
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-amber-400 hover:text-black transition-all duration-300 hover:scale-105"
@@ -90,12 +90,11 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Bandar Lampung</p>
                   <p className="mt-1 leading-relaxed">
-                    Jl. Pulau Tegal, Way Dadi, Kec. Sukarame, Kota Bandar Lampung, Lampung 35133
+                    Jl. Pulau Tegal, Way Dadi, Kec. Sukarame, Kota Bandar
+                    Lampung, Lampung 35133
                   </p>
                 </div>
               </div>
-
-              
             </div>
           </div>
 
@@ -108,7 +107,7 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">WhatsApp</p>
                   <a
-                    href="https://wa.me/6283808558522"
+                    href="https://wa.me/6287711428015"
                     className="hover:text-amber-400 transition"
                   >
                     +62 877-1142-8015
@@ -121,17 +120,17 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Email</p>
                   <a
-                    href="mailto:info@cleanarea.id"
+                    href="clean.area02@gmaol.com"
                     className="hover:text-amber-400 transition"
                   >
-                    info@cleanarea.id
+                    clean.area02@gmaol.com
                   </a>
                 </div>
               </div>
 
               <div className="pt-2">
                 <a
-                  href="https://wa.me/6283808558522"
+                  href="https://wa.me/6287711428015"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-lg bg-amber-400 px-4 py-2 text-sm font-bold text-black hover:bg-amber-500 transition-all shadow-md hover:shadow-amber-400/50"
@@ -223,17 +222,8 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Bandar Lampung</p>
                   <p className="mt-1 leading-relaxed">
-                    Jl. Raden Intan No. 45, Tanjung Karang Pusat
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <MapPin size={18} className="text-amber-400 mt-0.5 shrink-0" />
-                <div>
-                  <p className="font-semibold text-white/90">Kota Metro</p>
-                  <p className="mt-1 leading-relaxed">
-                    Jl. Ahmad Yani No. 123, Metro Pusat
+                    Jl. Pulau Tegal, Way Dadi, Kec. Sukarame, Kota Bandar
+                    Lampung, Lampung 35133
                   </p>
                 </div>
               </div>
@@ -253,6 +243,7 @@ export default function Footer() {
                     className="hover:text-amber-400 transition"
                   >
                     +62 877-1142-8015
+                    
                   </a>
                 </div>
               </div>
@@ -262,10 +253,10 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Email</p>
                   <a
-                    href="mailto:info@cleanarea.id"
+                    href="clean.area02@gmaol.com"
                     className="hover:text-amber-400 transition"
                   >
-                    info@cleanarea.id
+                    clean.area02@gmaol.com
                   </a>
                 </div>
               </div>
@@ -305,7 +296,7 @@ export default function Footer() {
               className="w-5 h-5 object-contain opacity-70"
             />
             <p>
-              © {new Date().getFullYear()} Clean-Area. Semua hak dilindungi.
+              © {new Date().getFullYear()} Clean Area. Semua hak dilindungi.
             </p>
           </div>
 

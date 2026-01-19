@@ -245,7 +245,7 @@ export default function AdminOrderDetail() {
 
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl shadow-lg ring-1 ring-emerald-500/20">
   <p className="text-[10px] text-emerald-400/50 mb-1 uppercase font-black tracking-widest">
-    Griya Pos Code (Manual)
+    Griyo Pos Code (Manual)
   </p>
   <input
     placeholder="Contoh: 111"

@@ -102,7 +102,7 @@ export default function AdminOrders() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-emerald-400 transition-colors" size={16} />
             <input 
               type="text"
-              placeholder="Cari Tiket, Nama, atau No Griya Pos..."
+              placeholder="Cari Tiket, Nama, atau No Griyo Pos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-emerald-500/50 transition-all shadow-inner"
@@ -153,7 +153,7 @@ export default function AdminOrders() {
                     <tr>
                     <th className="p-4 w-[50px]">No</th>
                     <th className="p-4">Ticket</th>
-                    <th className="p-4">Griya Pos</th>
+                    <th className="p-4">Griyo Pos</th>
                     <th className="p-4">Customer</th>
                     <th className="p-4">WhatsApp</th>
                     <th className="p-4">Service</th>
