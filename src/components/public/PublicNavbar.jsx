@@ -55,7 +55,7 @@ export default function PublicNavbar() {
                 <div className="h-11 w-11 rounded-2xl overflow-hidden border border-white/10 shadow-sm">
                   <img
                     src={logo}
-                    alt="Clean-Area"
+                    alt="Clean Area"
                     className="h-full w-full object-cover"
                     draggable={false}
                   />
@@ -186,7 +186,7 @@ export default function PublicNavbar() {
                   <button
                     onClick={() => {
                       setOpen(false);
-                      navigate('/track'); // pastikan route kamu benar
+                      navigate('/tracking'); // pastikan route kamu benar
                     }}
                     className="w-full rounded-2xl bg-white/10 py-3 font-black text-white border border-white/15 hover:bg-white/15 transition"
                   >

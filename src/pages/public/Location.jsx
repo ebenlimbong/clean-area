@@ -9,18 +9,21 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
+// === IMPORT FOTO OUTLET ===
+import gallery6 from '../../assets/images/home/toko.png';
+
 export default function Location() {
   // ✅ GANTI INI SESUAI KEBUTUHAN
-  const WHATSAPP_NUMBER = '6281234567890';
-  const EMAIL = 'info@clean-area.com';
+  const WHATSAPP_NUMBER = '6287711428015';
+  const EMAIL = 'clean.area02@gmail.com';
   const PHONE_DISPLAY = '+62 877-1142-8015';
   const ADDRESS =
-    'Jl. Contoh Alamat No. 123, Kelurahan, Kecamatan, Kota, Provinsi 12345';
+    'Jl. Pulau Tegal, Way Dadi, Kec. Sukarame, Kota Bandar Lampung, Lampung 35133';
 
-  // ✅ Paste link embed Google Maps (bukan short link! Harus embed URL)
+  // ✅ Link embed Google Maps (harus URL embed, bukan short link)
   const MAPS_EMBED_URL = 'https://maps.app.goo.gl/7f5n5j8r4fCExwnaA';
 
-  // ✅ Perbaiki: hapus spasi di URL WhatsApp
+  // ✅ Perbaiki link WhatsApp — hapus spasi!
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     'Halo Clean-Area, saya mau tanya lokasi outlet dan jam operasional.'
   )}`;
@@ -40,7 +43,7 @@ export default function Location() {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-            Lokasi <span className="text-amber-300">Clean-Area</span>
+            Lokasi <span className="text-amber-300">Clean Area</span>
           </h1>
           <p className="mt-4 text-white/75 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Temukan outlet kami, cek jam operasional, dan dapatkan arah tercepat
@@ -73,31 +76,16 @@ export default function Location() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-10">
           {/* LEFT: Outlet + Contact */}
           <div className="space-y-6">
-            {/* Outlet Image / Placeholder */}
+            {/* Outlet Image — SEKARANG PAKAI GAMBAR ASLI */}
             <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50">
-              <div className="aspect-[16/10] w-full flex items-center justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 relative">
-                <div className="pointer-events-none absolute inset-0">
-                  <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-amber-400/15 blur-3xl" />
-                </div>
-
-                <div className="relative text-center px-6">
-                  <div className="mx-auto mb-4 h-20 w-20 rounded-3xl bg-white/10 border border-white/10 flex items-center justify-center">
-                    <MapPin className="h-9 w-9 text-amber-300" />
-                  </div>
-                  <div className="text-white font-black text-xl">
-                    Foto Outlet Kami
-                  </div>
-                  <div className="mt-1 text-white/70 text-sm">
-                    (Ganti placeholder ini dengan foto outlet)
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-5 sm:p-6 bg-white">
-                <div className="text-sm text-slate-600 leading-relaxed">
-                  Tips: gunakan gambar outlet dengan rasio <b>16:10</b> supaya
-                  tampil konsisten di semua device.
-                </div>
+              <div className="aspect-[16/10] w-full overflow-hidden relative">
+                <img
+                  src={gallery6}
+                  alt="Outlet Clean-Area"
+                  className="h-full w-full object-cover"
+                  draggable={false}
+                />
+              
               </div>
             </div>
 
@@ -160,9 +148,7 @@ export default function Location() {
               </div>
 
               <div className="aspect-[16/10] w-full bg-slate-100">
-                {MAPS_EMBED_URL &&
-                MAPS_EMBED_URL.trim() !==
-                  '' ? (
+                {MAPS_EMBED_URL && MAPS_EMBED_URL.trim() !== '' ? (
                   <iframe
                     title="Google Maps - Clean-Area"
                     src={MAPS_EMBED_URL}
@@ -220,8 +206,8 @@ export default function Location() {
                       Jam Operasional
                     </div>
                     <div className="font-semibold leading-relaxed">
-                      Senin – Sabtu: 08.00 – 20.00 WIB <br />
-                      Minggu: 09.00 – 18.00 WIB
+                      Senin – Sabtu: 09.00 – 20.00 WIB <br />
+                      Minggu: Tutup
                     </div>
                   </div>
                 </div>
@@ -285,7 +271,6 @@ export default function Location() {
               <PhoneCall className="h-5 w-5" />
               Hubungi Kami
             </a>
-        
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from 'react';
 import {
   Tag,
   Gift,
@@ -6,158 +6,134 @@ import {
   Star,
   Sparkles,
   TrendingUp,
-  Copy,
-  Check,
   ChevronRight,
   X,
-} from "lucide-react";
+  CheckCircle,
+} from 'lucide-react';
 
-// Import gambar lokal dari folder assets/images/promo/
-import promo1 from "../../assets/images/promo/promo1.png";
-import promo2 from "../../assets/images/promo/promo2.png";
-import promo3 from "../../assets/images/promo/promo3.png";
-import promo4 from "../../assets/images/promo/promo4.png";
+// Import gambar lokal
+import promo1 from '../../assets/images/promo/family.png';
+import promo2 from '../../assets/images/promo/student.png';
+import promo3 from '../../assets/images/promo/grup.png';
+import promo4 from '../../assets/images/promo/kartu.jpg';
 
 export default function Promo() {
-  const [activeTab, setActiveTab] = useState("semua");
-  const [copiedCode, setCopiedCode] = useState("");
-  const [selectedPromo, setSelectedPromo] = useState(null); // Untuk modal
+  const [activeTab, setActiveTab] = useState('semua');
+  const [selectedPromo, setSelectedPromo] = useState(null);
 
-  // Data promo dengan gambar import
   const promos = useMemo(
     () => [
       {
         id: 1,
-        category: "member",
-        title: "Member Baru Diskon 30%",
+        category: 'member',
+        title: 'FAMILLY CLEAN PACK',
         description:
-          "Dapatkan diskon 30% untuk cuci sepatu pertama Anda sebagai member baru!",
-        discount: "30%",
-        validUntil: "31 Desember 2024",
-        code: "NEWMEMBER30",
-        badge: "Member",
+          'DISC 10% + 1 FREE SHOES DEO ',
+        validUntil: '31 Desember 2024',
+        code: '',
+        badge: 'Member',
         image: promo1,
-        // Detail tambahan untuk modal
         serviceDetails: [
-          "Deep cleaning detail",
-          "Pembersihan interior & exterior",
-          "Penghilangan noda membandel",
-          "Perawatan material khusus",
-          "Opsional treatment protection",
+          'Deep cleaning detail',
+          'Pembersihan interior & exterior',
+          'Penghilangan noda membandel',
+          'Perawatan material khusus',
+          'Opsional treatment protection',
         ],
-        duration: "1–2 hari kerja",
-        priceStart: "Rp 50.000",
-        whyChoose: "Teknik rapi, aman untuk material, hasil lebih tahan lama.",
+        duration: '1–2 hari kerja',
+        priceStart: 'Rp 50.000',
+        whyChoose: 'Teknik rapi, aman untuk material, hasil lebih tahan lama.',
       },
       {
         id: 2,
-        category: "paket",
-        title: "Paket Hemat 3 Pasang",
-        description: "Cuci 3 pasang sepatu sekaligus dan hemat hingga 50rb!",
-        discount: "Rp 50.000",
-        validUntil: "15 Januari 2025",
-        code: "PAKET3",
-        badge: "Paket",
+        category: 'paket',
+        title: ' STUDENT SMART PACK',
+        description: '(3 PASANG SEPATU) ONLY 100K',
+        validUntil: '15 Januari 2025',
+        code: 'PAKET3',
+        badge: 'Paket',
         image: promo2,
         serviceDetails: [
-          "Cuci 3 pasang sepatu",
-          "Hemat hingga Rp 50.000",
-          "Pengerjaan cepat",
-          "Garansi hasil bersih",
+          'Cuci 3 pasang sepatu',
+          'Garansi hasil bersih',
         ],
-        duration: "2–3 hari kerja",
-        priceStart: "Rp 100.000",
-        whyChoose: "Ideal untuk keluarga atau koleksi sepatu banyak.",
+        duration: '2–3 hari kerja',
+        priceStart: 'Rp 100.000',
+        whyChoose: 'Ideal untuk keluarga atau koleksi sepatu banyak.',
       },
       {
         id: 3,
-        category: "weekend",
-        title: "Weekend Special",
+        category: 'weekend',
+        title: 'GROUP PARTNER PACK',
         description:
-          "Setiap weekend dapatkan diskon 20% untuk semua layanan cuci sepatu!",
-        discount: "20%",
-        validUntil: "Setiap Sabtu–Minggu",
-        code: "WEEKEND20",
-        badge: "Weekend",
+          '(10–20 PASANG SEPATU) DISC 20% + 3 FREE SHOES DEO',
+        validUntil: 'Setiap Sabtu–Minggu',
+        code: 'WEEKEND20',
+        badge: 'Weekend',
         image: promo3,
         serviceDetails: [
-          "Diskon 20% untuk semua layanan",
-          "Berlaku akhir pekan",
-          "Bisa mix sepatu",
-          "Hasil maksimal",
+          'Diskon 20% ',
+          'Bisa mix sepatu',
+          'Hasil maksimal',
         ],
-        duration: "1–2 hari kerja",
-        priceStart: "Mulai Rp 50.000",
-        whyChoose: "Manfaatkan waktu weekend untuk perawatan sepatu Anda!",
+        duration: '1–2 hari kerja',
+        priceStart: 'Mulai Rp 50.000',
+        whyChoose: 'Manfaatkan waktu weekend untuk perawatan sepatu Anda!',
       },
       {
         id: 4,
-        category: "premium",
-        title: "Deep Cleaning Premium",
-        description: "Upgrade ke layanan deep cleaning premium dengan diskon 25%",
-        discount: "25%",
-        validUntil: "31 Januari 2025",
-        code: "PREMIUM25",
-        badge: "Premium",
+        category: 'premium',
+        title: 'Kartu Ajaib',
+        description:
+          'Kumpulkan 8 kartu untuk dapatkan Promo',
+        validUntil: '31 Januari 2025',
+        code: 'PREMIUM25',
+        badge: 'Premium',
         image: promo4,
         serviceDetails: [
-          "Deep cleaning premium",
-          "Treatment khusus material",
-          "Penghilangan noda ekstrem",
-          "Proteksi anti-kotoran",
-          "Hasil tahan lama",
+          'Free cleaning dengan 8 kartu ajaib',
+          
         ],
-        duration: "2–4 hari kerja",
-        priceStart: "Mulai Rp 80.000",
-        whyChoose: "Untuk sepatu kesayangan yang butuh perawatan ekstra.",
+        duration: '2–4 hari kerja',
+        priceStart: 'Mulai Rp 80.000',
+        whyChoose: 'Untuk sepatu kesayangan yang butuh perawatan ekstra.',
       },
     ],
     []
   );
 
   const tabs = [
-    { key: "semua", label: "Semua Promo" },
-    { key: "member", label: "Member" },
-    { key: "paket", label: "Paket Hemat" },
-    { key: "weekend", label: "Weekend" },
-    { key: "premium", label: "Premium" },
+    { key: 'semua', label: 'Semua Promo' },
+    { key: 'member', label: 'Member' },
+    { key: 'paket', label: 'Paket Hemat' },
+    { key: 'weekend', label: 'Weekend' },
+    { key: 'premium', label: 'Premium' },
   ];
 
-  // Filter promo berdasarkan tab, maksimal 4 promo
   const filteredPromos =
-    activeTab === "semua"
+    activeTab === 'semua'
       ? promos.slice(0, 4)
       : promos.filter((p) => p.category === activeTab).slice(0, 4);
 
-  const copyPromo = async (code) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedCode(code);
-      setTimeout(() => setCopiedCode(""), 1200);
-    } catch {
-      // fallback: do nothing
-    }
+  const closeModal = () => setSelectedPromo(null);
+
+  const openWhatsApp = () => {
+    if (!selectedPromo) return;
+    const message = encodeURIComponent(
+      `Halo, saya ingin memesan layanan ` 
+    );
+    // Pastikan tidak ada spasi berlebih setelah `text=`
+    window.open(`https://wa.me/+6287711428015?text=${message}`, '_blank');
   };
 
   const badgeStyle = (badge) => {
     const base =
-      "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-black border";
-    if (badge === "Premium")
+      'inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-black border';
+    if (badge === 'Premium')
       return `${base} bg-amber-400/15 text-amber-200 border-amber-400/25`;
-    if (badge === "Weekend")
+    if (badge === 'Weekend')
       return `${base} bg-emerald-200/10 text-emerald-100 border-white/10`;
     return `${base} bg-white/10 text-white border-white/10`;
-  };
-
-  // Fungsi untuk menutup modal
-  const closeModal = () => setSelectedPromo(null);
-
-  // Fungsi untuk membuka WhatsApp
-  const openWhatsApp = () => {
-    const message = encodeURIComponent(
-      `Halo, saya ingin memesan layanan: ${selectedPromo?.title} \nKode Promo: ${selectedPromo?.code}`
-    );
-    window.open(`https://wa.me/6281234567890?text=${message}`, "_blank");
   };
 
   return (
@@ -168,20 +144,17 @@ export default function Promo() {
           <div className="absolute -top-28 -right-28 h-80 w-80 rounded-full bg-amber-400/15 blur-3xl" />
           <div className="absolute -bottom-28 -left-28 h-80 w-80 rounded-full bg-emerald-200/10 blur-3xl" />
         </div>
-
         <div className="relative mx-auto max-w-7xl px-4 pt-28 pb-16 text-center">
           <div className="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white/10 border border-white/10">
-            <Tag className="h-8 w-8 text-amber-300" />
+            <Tag className="h-8 w-8 text-amber-400" />
           </div>
-
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-            Promo <span className="text-amber-300">Special</span>
+            Promo <span className="text-amber-400">Special</span>
           </h1>
           <p className="mt-4 text-white/75 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Dapatkan penawaran terbaik untuk layanan perawatan sepatu premium kami.
-            Hemat, rapi, dan transparan.
+            Dapatkan penawaran terbaik untuk layanan perawatan sepatu premium
+            kami. Hemat, rapi, dan transparan.
           </p>
-
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <button className="rounded-2xl bg-amber-400 px-6 py-3 font-black text-emerald-950 hover:bg-amber-300 transition shadow">
               Daftar Member
@@ -200,8 +173,8 @@ export default function Promo() {
                 onClick={() => setActiveTab(t.key)}
                 className={`shrink-0 rounded-2xl px-5 py-2 text-sm font-black transition border ${
                   activeTab === t.key
-                    ? "bg-emerald-950 text-white border-emerald-950"
-                    : "bg-white text-emerald-950 border-slate-200 hover:bg-slate-50"
+                    ? 'bg-emerald-950 text-white border-emerald-950'
+                    : 'bg-white text-emerald-950 border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 {t.label}
@@ -211,17 +184,17 @@ export default function Promo() {
         </div>
       </div>
 
-      {/* PROMO CARDS – hanya 4 */}
-      <section className="mx-auto max-w-7xl px-4 py-12">
+      {/* PROMO CARDS */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredPromos.map((promo) => (
             <div
               key={promo.id}
-              className="group rounded-[20px] border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
-              onClick={() => setSelectedPromo(promo)} // 🔥 Klik untuk buka modal
+              className="group rounded-[20px] border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer relative h-auto md:h-[400px]"
+              onClick={() => setSelectedPromo(promo)}
             >
               {/* Gambar Promo */}
-              <div className="h-48 w-full overflow-hidden relative">
+              <div className="h-48 w-full overflow-hidden relative md:h-60">
                 <img
                   src={promo.image}
                   alt={promo.title}
@@ -240,29 +213,22 @@ export default function Promo() {
                 </div>
               </div>
 
-              {/* Overlay Gradien Hijau Tua */}
-              <div className="relative p-6 bg-gradient-to-t from-emerald-950 via-emerald-900 to-transparent text-white">
+              {/* Overlay Solid Hijau Tua - Menutupi Seluruh Bagian Bawah Card */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-emerald-950/85 text-white">
                 {/* Diskon Besar */}
-                <div className="text-3xl md:text-4xl font-black text-amber-300">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-amber-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                   {promo.discount}
                 </div>
 
                 {/* Judul Promo */}
-                <h3 className="mt-1 text-xl font-black">{promo.title}</h3>
+                <h3 className="mt-1 text-lg sm:text-xl font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                  {promo.title}
+                </h3>
 
                 {/* Deskripsi */}
-                <p className="mt-4 text-sm text-white/80 leading-relaxed">
+                <p className="mt-3 text-xs sm:text-sm text-white/80 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
                   {promo.description}
                 </p>
-
-                {/* Tanggal Berlaku */}
-                <div className="mt-4 flex items-center gap-2 text-xs text-white/75">
-                  <Clock className="h-4 w-4" />
-                  <span>
-                    Berlaku hingga:{" "}
-                    <span className="font-semibold">{promo.validUntil}</span>
-                  </span>
-                </div>
               </div>
             </div>
           ))}
@@ -275,28 +241,27 @@ export default function Promo() {
           <h2 className="text-3xl font-black text-center text-emerald-950 mb-12">
             Keuntungan Jadi Member
           </h2>
-
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 icon: <Gift className="h-7 w-7 text-amber-300" />,
-                title: "Promo Eksklusif",
-                desc: "Dapatkan promo khusus member setiap bulan.",
+                title: 'Promo Eksklusif',
+                desc: 'Dapatkan promo khusus member setiap bulan.',
               },
               {
                 icon: <Star className="h-7 w-7 text-amber-300" />,
-                title: "Poin Reward",
-                desc: "Kumpulkan poin setiap transaksi.",
+                title: 'Poin Reward',
+                desc: 'Kumpulkan poin setiap transaksi.',
               },
               {
                 icon: <TrendingUp className="h-7 w-7 text-amber-300" />,
-                title: "Diskon Berlipat",
-                desc: "Semakin sering cuci, semakin hemat.",
+                title: 'Diskon Berlipat',
+                desc: 'Semakin sering cuci, semakin hemat.',
               },
               {
                 icon: <Sparkles className="h-7 w-7 text-amber-300" />,
-                title: "Birthday Special",
-                desc: "Hadiah spesial di hari ulang tahun.",
+                title: 'Birthday Special',
+                desc: 'Hadiah spesial di hari ulang tahun.',
               },
             ].map((b, i) => (
               <div
@@ -316,123 +281,111 @@ export default function Promo() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-7xl px-4 py-16">
-        <div className="rounded-[28px] bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 p-8 md:p-12 text-center text-white relative overflow-hidden border border-white/10">
-          <div className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-amber-400/15 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-emerald-200/10 blur-3xl" />
+     
 
-          <h2 className="text-3xl md:text-4xl font-black">
-            Jangan Lewatkan <span className="text-amber-300">Promonya</span>!
-          </h2>
-          <p className="mt-4 text-white/75 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            Daftar sekarang dan nikmati berbagai keuntungan sebagai member.
-            Sepatu bersih, harga lebih hemat.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <button className="inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-8 py-4 font-black text-emerald-950 hover:bg-amber-300 transition shadow">
-              Daftar Member Sekarang <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* MODAL DETAIL LAYANAN */}
+      {/* MODAL DETAIL LAYANAN — RESPONSIF & SCROLLABLE DI MOBILE */}
       {selectedPromo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="relative w-full max-w-4xl rounded-2xl bg-white shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-md md:max-w-4xl rounded-2xl bg-white shadow-xl overflow-hidden">
             {/* Header Modal */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-emerald-950 flex items-center justify-center">
-                  <Tag className="h-5 w-5 text-white" />
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-lg bg-emerald-950 flex items-center justify-center">
+                  <Tag className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-xl font-black text-emerald-950">{selectedPromo.title}</h3>
+                <h3 className="text-lg md:text-2xl font-black text-emerald-950">
+                  {selectedPromo.title}
+                </h3>
               </div>
               <button
                 onClick={closeModal}
                 className="rounded-full p-2 hover:bg-slate-100 transition"
               >
-                <X className="h-5 w-5 text-slate-500" />
+                <X className="h-6 w-6 text-slate-500" />
               </button>
             </div>
 
-            {/* Body Modal */}
-            <div className="flex gap-6 p-6">
-              {/* Gambar Promo */}
-              <div className="w-1/2">
+            {/* Body Modal - Responsif & Scrollable di Mobile */}
+            <div className="flex flex-col md:flex-row gap-6 p-6 max-h-[80vh] overflow-y-auto">
+              {/* Kolom Kiri: Gambar */}
+              <div className="w-full md:w-1/2">
                 <img
                   src={selectedPromo.image}
                   alt={selectedPromo.title}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-auto max-h-[30vh] md:max-h-none object-cover rounded-xl"
                 />
               </div>
 
-              {/* Detail Promo */}
-              <div className="w-1/2 space-y-6">
-                <div className="text-sm text-slate-600">
-                  {selectedPromo.description}
-                </div>
-
+              {/* Kolom Kanan: Detail */}
+              <div className="w-full md:w-1/2 space-y-6">
                 {/* Diskon Besar */}
-                <div className="text-3xl font-black text-amber-300">
+                <div className="text-2xl md:text-4xl font-black text-amber-400">
                   {selectedPromo.discount}
                 </div>
 
-                {/* Duration & Price */}
-                <div className="flex gap-4">
-                  <div className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-black text-emerald-950">
-                    <Clock className="inline mr-1 h-4 w-4" />
+                {/* Deskripsi Singkat */}
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+                  {selectedPromo.description}
+                </p>
+
+                {/* Durasi & Harga Badge */}
+                <div className="flex gap-3">
+                  <div className="rounded-full bg-emerald-100 px-4 py-2 text-sm md:text-base font-black text-emerald-950">
+                    <Clock className="inline mr-1 h-4 w-4" />{' '}
                     {selectedPromo.duration}
                   </div>
-                  <div className="rounded-full bg-amber-100 px-4 py-2 text-sm font-black text-amber-950">
-                    <Star className="inline mr-1 h-4 w-4" />
-                    Mulai {selectedPromo.priceStart}
+                  <div className="rounded-full bg-amber-100 px-4 py-2 text-sm md:text-base font-black text-amber-800">
+                    <Star className="inline mr-1 h-4 w-4" /> Mulai{' '}
+                    {selectedPromo.priceStart}
                   </div>
                 </div>
 
-                {/* What You Get */}
+                {/* Yang Kamu Dapat */}
                 <div>
-                  <h4 className="font-black text-emerald-950 mb-2">Yang kamu dapat</h4>
-                  <ul className="space-y-1 text-sm">
+                  <h4 className="font-black text-emerald-950 mb-2">
+                    Yang kamu dapat
+                  </h4>
+                  <ul className="space-y-2 text-sm md:text-base">
                     {selectedPromo.serviceDetails.map((detail, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                      <li
+                        key={i}
+                        className="flex items-center gap-2 text-slate-700"
+                      >
+                        <div className="h-4 w-4 rounded-full bg-emerald-500" />
                         {detail}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Why Choose Us */}
+                {/* Kenapa Pilih Kami */}
                 <div className="p-4 bg-emerald-50 rounded-xl">
                   <div className="flex items-center gap-2 text-emerald-950">
-                    <div className="h-5 w-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                      <div className="h-2 w-2 rounded-full bg-white" />
-                    </div>
+                    <CheckCircle className="h-5 w-5" />
                     <span className="font-black">Kenapa pilih kami:</span>
                   </div>
-                  <p className="mt-1 text-sm">{selectedPromo.whyChoose}</p>
+                  <p className="mt-1 text-sm md:text-base text-slate-700">
+                    {selectedPromo.whyChoose}
+                  </p>
                 </div>
 
                 {/* Buttons */}
                 <div className="flex gap-3">
                   <button
                     onClick={openWhatsApp}
-                    className="flex-1 rounded-xl bg-emerald-950 px-6 py-3 font-black text-white hover:bg-emerald-900 transition"
+                    className="flex-1 rounded-xl bg-emerald-800 px-6 py-3 md:px-8 md:py-4 font-black text-white hover:bg-emerald-700 transition text-base md:text-lg"
                   >
                     Pesan via WhatsApp
                   </button>
                   <button
                     onClick={closeModal}
-                    className="flex-1 rounded-xl border border-slate-300 px-6 py-3 font-black text-slate-700 hover:bg-slate-50 transition"
+                    className="flex-1 rounded-xl border border-slate-300 px-6 py-3 md:px-8 md:py-4 font-black text-slate-700 hover:bg-slate-50 transition text-base md:text-lg"
                   >
                     Tutup
                   </button>
                 </div>
 
-                <div className="text-xs text-slate-500 mt-2">
+                <div className="text-xs md:text-sm text-slate-500 mt-2">
                   *Harga dapat berubah sesuai kondisi sepatu & material.
                 </div>
               </div>

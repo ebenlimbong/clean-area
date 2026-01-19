@@ -69,7 +69,7 @@ export default function Tracking() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
           <input 
             type="text"
-            placeholder="Cari Tiket atau No. Griya Pos (Nota)..."
+            placeholder="Cari Tiket atau No. Griyo Pos (Nota)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder:text-white/10 outline-none focus:border-emerald-500/50 transition-all font-mono"
@@ -97,7 +97,7 @@ export default function Tracking() {
               <tr>
                 <th className="p-6">No</th>
                 <th className="p-6">Ticket Code</th>
-                <th className="p-6">No. Griya Pos</th> {/* KOLOM BARU */}
+                <th className="p-6">No. Griyo Pos</th> {/* KOLOM BARU */}
                 <th className="p-6">Service</th>
                 <th className="p-6 text-center">Status</th>
                 <th className="p-6 text-right">Update</th>
@@ -175,7 +175,7 @@ export default function Tracking() {
                   {/* DATA TAMBAHAN DI MODAL: GRIYA POS */}
                   <div className="flex items-center justify-between border-b border-white/5 pb-3">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">No. Nota (Griya Pos)</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">No. Nota (Griyo Pos)</p>
                       <p className="text-emerald-400 font-mono font-bold">{selectedOrder.griya_pos_code || "-"}</p>
                     </div>
                     <Hash size={20} className="text-white/10" />

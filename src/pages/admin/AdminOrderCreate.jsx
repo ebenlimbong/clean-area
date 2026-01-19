@@ -103,7 +103,7 @@ export default function AdminOrderCreate() {
 
             <div className="space-y-2">
     <label className="text-[10px] font-bold text-emerald-400/50 uppercase tracking-widest ml-1">
-      Nomor Griya Pos
+      Nomor Griyo Pos
     </label>
     <input
       placeholder="Contoh: 111"
