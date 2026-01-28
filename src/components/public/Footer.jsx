@@ -120,10 +120,10 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Email</p>
                   <a
-                    href="clean.area02@gmaol.com"
+                    href="clean.area02@gmail.com"
                     className="hover:text-amber-400 transition"
                   >
-                    clean.area02@gmaol.com
+                    clean.area02@gmail.com
                   </a>
                 </div>
               </div>
@@ -243,7 +243,6 @@ export default function Footer() {
                     className="hover:text-amber-400 transition"
                   >
                     +62 877-1142-8015
-                    
                   </a>
                 </div>
               </div>
@@ -253,10 +252,10 @@ export default function Footer() {
                 <div>
                   <p className="font-semibold text-white/90">Email</p>
                   <a
-                    href="clean.area02@gmaol.com"
+                    href="clean.area02@gmail.com"
                     className="hover:text-amber-400 transition"
                   >
-                    clean.area02@gmaol.com
+                    clean.area02@gmail.com
                   </a>
                 </div>
               </div>
