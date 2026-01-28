@@ -76,7 +76,7 @@ export default function About() {
     {
       icon: ShieldCheck,
       title: 'Terpercaya',
-      desc: 'Dipercaya pelanggan sejak 2019.',
+      desc: 'Dipercaya pelanggan sejak 2020.',
     },
   ];
 

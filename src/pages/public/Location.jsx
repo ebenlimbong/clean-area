@@ -227,7 +227,7 @@ export default function Location() {
             {
               icon: <Clock className="h-6 w-6 text-amber-300" />,
               title: 'Jam Fleksibel',
-              desc: 'Buka setiap hari untuk memudahkan jadwal kamu.',
+              desc: 'Buka setiap Senin - Sabtu:09.00 - 20.00 WIB.',
             },
             {
               icon: <MessageCircle className="h-6 w-6 text-amber-300" />,

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import konten1 from '../../assets/images/home/gambar2.png';
-import konten2 from '../../assets/images/home/repair2.png';
+import konten2 from '../../assets/images/home/perbaikan.png';
 import konten3 from '../../assets/images/home/color.png';
 import konten4 from '../../assets/images/home/custom.png';
 import konten5 from '../../assets/images/home/konten8.png';
